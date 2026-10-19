@@ -1,0 +1,18 @@
+{
+    "Books": [
+        {
+            "Book_ID": "123",
+            "Title": "Namaz Benefits",
+            "Author": "Abdul Majid",
+            "Availability": "Yes"
+        },
+        {
+            "Book_ID": "456",
+            "Title": "Quran Benefits",
+            "Author": "Abdul Majid",
+            "Availability": "Yes"
+        }
+    ],
+    "Members": [],
+    "Loans": []
+}
