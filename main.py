@@ -97,7 +97,7 @@ class Library:
                     raise BorrowLimitError("You are exceeding your borrowing limit!")
                     break
             elif book.book_id == book_id and book.is_available == False:
-                print("Book is Borrowed")
+                raise BookNotAvailableError("Book is already borrowed!")
                 break
         else:
             raise BookNotAvailableError("Book is not available in Library!")
