@@ -1,7 +1,5 @@
-
 import json
 from datetime import date, timedelta
-
 import pytest
 
 from main import (
@@ -22,7 +20,7 @@ def setup_library():
     library = Library()
 
     book1 = Book("B1", "Python Basics", "John Smith", True)
-    book2 = book2 = Book("B2", "Learn OOP", "Jane Doe", True)
+    book2 = Book("B2", "Learn OOP", "Jane Doe", True)
 
     member = StudentMember("M1", "Ali")
 

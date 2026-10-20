@@ -1,18 +1,80 @@
 {
-    "Books": [
+    "books": [
         {
-            "Book_ID": "123",
-            "Title": "Namaz Benefits",
-            "Author": "Abdul Majid",
-            "Availability": "Yes"
+            "book_id": "1",
+            "title": "Harry Potter and the Philosopher's Stone",
+            "author": "J.K. Rowling",
+            "is_available": false
         },
         {
-            "Book_ID": "456",
-            "Title": "Quran Benefits",
-            "Author": "Abdul Majid",
-            "Availability": "Yes"
+            "book_id": "2",
+            "title": "The Hobbit",
+            "author": "J.R.R. Tolkien",
+            "is_available": "True"
+        },
+        {
+            "book_id": "3",
+            "title": "1984",
+            "author": "George Orwell",
+            "is_available": "True"
+        },
+        {
+            "book_id": "4",
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "is_available": "True"
+        },
+        {
+            "book_id": "5",
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "is_available": "True"
+        },
+        {
+            "book_id": "6",
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "is_available": "True"
+        },
+        {
+            "book_id": "7",
+            "title": "Dune",
+            "author": "Frank Herbert",
+            "is_available": "True"
+        },
+        {
+            "book_id": "8",
+            "title": "The Alchemist",
+            "author": "Paulo Coelho",
+            "is_available": "True"
+        },
+        {
+            "book_id": "9",
+            "title": "Atomic Habits",
+            "author": "James Clear",
+            "is_available": "True"
+        },
+        {
+            "book_id": "10",
+            "title": "The Psychology of Money",
+            "author": "Morgan Housel",
+            "is_available": "True"
         }
     ],
-    "Members": [],
-    "Loans": []
+    "members": [
+        {
+            "member_id": "1",
+            "name": "Abdul Majid",
+            "member_type": "staff"
+        }
+    ],
+    "loans": [
+        {
+            "member_id": "1",
+            "book_id": "1",
+            "borrowed_on": "2026-10-20",
+            "due_on": "2026-11-03",
+            "returned_on": null
+        }
+    ]
 }

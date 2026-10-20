@@ -22,7 +22,7 @@ class Book:
         self.is_available = is_available
 
     def __str__(self):
-        return f"ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Availability: {self.is_available}"
+        return f"Book-ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Availability: {self.is_available}"
 
     def __repr__(self):
         return f"Book(ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Availability: {self.is_available})"
@@ -46,12 +46,12 @@ class Member:
 
 class StudentMember(Member):
     def can_borrow(self):
-      return len(self.current_loan_list) < 3
+        return len(self.current_loan_list) < 3
 
 
 class StaffMember(Member):
     def can_borrow(self):
-      return len(self.current_loan_list) < 10
+        return len(self.current_loan_list) < 10
 
 
 class Library:
@@ -142,14 +142,12 @@ class Library:
     def save_to_json(self):
         books_list = []
         for book in self.books:
-            books_list.append(
-                {
-                    "Book_ID": book.book_id,
-                    "Title": book.title,
-                    "Author": book.author,
-                    "Availability": book.is_available,
-                }
-            )
+            books_list.append({
+                "book_id" : book.book_id,
+                "title" : book.title,
+                "author" : book.author,
+                "is_available" : book.is_available
+            })
 
         members_list = []
         for member in self.members:
@@ -160,37 +158,35 @@ class Library:
             else:
                 member_type = "regular"
 
-            members_list.append(
-                {
-                    "Name": member.name,
-                    "Member_ID": member.member_id,
-                    "Type": member_type,
-                }
-            )
+            members_list.append({
+                "member_id" : member.member_id,
+                "name" : member.name,
+                "member_type" : member_type
+                })
 
         loans_list = []
         for loan in self.loans:
-            loans_list.append(
-                {
-                    "Book_ID": loan.book.book_id,
-                    "Member_ID": loan.member.member_id,
-                    "Borrowed_ON": loan.borrowed_on.isoformat()
-                    if loan.borrowed_on
-                    else None,
-                    "Due_ON": loan.due_on.isoformat() if loan.due_on else None,
-                    "Returned_ON": loan.returned_on.isoformat()
-                    if loan.returned_on
-                    else None,
-                }
-            )
+            loans_list.append({
+                "member_id" : loan.member.member_id,
+                "book_id" : loan.book.book_id,
+                "borrowed_on" : loan.borrowed_on.isoformat()
+                if loan.borrowed_on
+                else None,
+                "due_on" : loan.due_on.isoformat()
+                if loan.due_on
+                else None,
+                "returned_on" : loan.returned_on.isoformat()
+                if loan.returned_on
+                else None
+            })
 
-        data = {"Books": books_list, "Members": members_list, "Loans": loans_list}
+        data = {"books" : books_list, "members" : members_list, "loans" : loans_list}
 
         with open("library_data.json", "w") as f:
             json.dump(data, f, indent=4)
             print("Data saved successfully!")
 
-    def load_books(self):
+    def load_data(self):
         try:
             with open("library_data.json", "r") as f:
                 data = json.load(f)
@@ -205,22 +201,22 @@ class Library:
             members_dict = {}
 
             # 1. Load books
-            for book_data in data["Books"]:
+            for book_data in data["books"]:
                 book = Book(
-                    book_data["Book_ID"],
-                    book_data["Title"],
-                    book_data["Author"],
-                    book_data["Availability"],
+                    book_data["book_id"],
+                    book_data["title"],
+                    book_data["author"],
+                    book_data["is_available"],
                 )
 
                 self.books.append(book)
                 books_dict[book.book_id] = book
 
             # 2. Load members
-            for member_data in data["Members"]:
-                member_id = member_data["Member_ID"]
-                name = member_data["Name"]
-                member_type = member_data["Type"]
+            for member_data in data["members"]:
+                member_id = member_data["member_id"]
+                name = member_data["name"]
+                member_type = member_data["member_type"]
 
                 if member_type == "student":
                     member = StudentMember(member_id, name)
@@ -235,28 +231,28 @@ class Library:
                 members_dict[member.member_id] = member
 
             # 3. Load loans
-            for loan_data in data["Loans"]:
-                book_id = loan_data["Book_ID"]
-                member_id = loan_data["Member_ID"]
+            for loan_data in data["loans"]:
+                book_id = loan_data["book_id"]
+                member_id = loan_data["member_id"]
 
                 book = books_dict[book_id]
                 member = members_dict[member_id]
 
                 borrowed_on = (
-                    date.fromisoformat(loan_data["Borrowed_ON"])
-                    if loan_data["Borrowed_ON"] is not None
+                    date.fromisoformat(loan_data["borrowed_on"])
+                    if loan_data["borrowed_on"] is not None
                     else None
                 )
 
                 due_on = (
-                    date.fromisoformat(loan_data["Due_ON"])
-                    if loan_data["Due_ON"] is not None
+                    date.fromisoformat(loan_data["due_on"])
+                    if loan_data["due_on"] is not None
                     else None
                 )
 
                 returned_on = (
-                    date.fromisoformat(loan_data["Returned_ON"])
-                    if loan_data["Returned_ON"] is not None
+                    date.fromisoformat(loan_data["returned_on"])
+                    if loan_data["returned_on"] is not None
                     else None
                 )
 
@@ -301,8 +297,18 @@ class Library:
                 elif choice == "2":
                     member_id = input("Enter ID:")
                     name = input("Please enter name: ")
+                    member_type = input("Choose member type (student/staff/regular): ").strip().lower()
 
-                    member = Member(member_id, name)
+                    if member_type == "student":
+                        member = StudentMember(member_id, name)
+                    elif member_type == "staff":
+                        member = StaffMember(member_id, name)
+                    elif member_type == "regular":
+                        member = Member(member_id, name)
+                    else:
+                        print("Invalid member type! Please try again.")
+                        continue
+
                     self.add_member(member)
 
                 elif choice == "3":
@@ -383,5 +389,5 @@ class Loan:
 
 if __name__ == "__main__":
     library = Library()
-    library.load_books()
+    library.load_data()
     library.menu()
